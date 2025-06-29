@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/index.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BUS Booking</title>
+  <link rel="stylesheet" href="./css/index.css" />
 </head>
 <body>
-    <header>
-        <div class="head_bar">
-            <div class="logo">
-                <a href="index.html"> <h1>BUS Booking</h1></a>
+  <header>
+    <div class="head_bar">
+      <div class="logo" id="logo-link">
+        <a href="index.html"><h1>BUS Booking</h1></a>
+      </div>
 
-            </div>
-            <div class="menu-toggle" id="menu-toggle">
-                <img src="./assects/menu.png" class="user"></div>
-            <div class="active_nav" id="nav-link">
-                <a href="#" class="click">Home</a>
-                <a href="#" class="click">Ticket Bokking</a>
-                <a href="#" class="click">My ticket</a>
-                <a href="#" class="click">About us</a>
-                <a href="profile.html" id="auth-link">
-                <img src="./assects/user.png" alt=""  class="user">
-                </a>
-            </div>
+      
 
-        </div>
- 
-    </header>
-    <main>
+      <div class="active_nav" id="nav-link">
+        <a href="#" class="click">Home</a>
+        <a href="#" class="click">Ticket Booking</a>
+        <a href="#" class="click">My Ticket</a>
+        <a href="#" class="click">About Us</a>
+        <a href="profile.html" id="auth-link">
+          <img src="./assects/user.png" alt="User" class="user" />
+        </a>
+      </div>
+      <div class="menu-toggle" id="menu-toggle">
+        <img src="./assects/menu.png" class="user" alt="Menu" />
+      </div>
+    </div>
+  </header>
 
-    </main>
+  <main></main>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+  document.getElementById('nav-link').classList.toggle('show');
+  document.getElementById('logo-link').classList.toggle('hide');
+  document.getElementById('menu-toggle').classList.toggle('hide');
+
+});
+
+  </script>
 </body>
-
 </html>
