@@ -1,0 +1,49 @@
+.booking-form {
+  max-width: 500px;
+  margin: auto;
+  padding: 1.5rem;
+  background: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 119, 182, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.book {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  margin: auto;
+  max-width: 450px;
+}
+
+.book label {
+  min-width: 140px;
+  font-weight: 600;
+  color: #0077b6;
+}
+
+.book input,
+.book select {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 2px solid #0077b6;
+  border-radius: 6px;
+  background-color: white;
+  transition: border-color 0.3s;
+}
+
+.book input:focus,
+.book select:focus {
+  border-color: #ff6600;
+  outline: none;
+  box-shadow: 0 0 4px rgba(255, 102, 0, 0.3);
+}
+
+.booking-form button
+{
+    width: 200px;
+    height: 35px;
+    border-radius: 25px;
+}
