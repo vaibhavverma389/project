@@ -1,1 +1,4 @@
-// Booking JS
+// logic for the booking by student
+
+
+
