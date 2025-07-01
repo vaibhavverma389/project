@@ -51,10 +51,10 @@
   <div id="loginError" style="color: red;"></div>
 
   <!-- 🛠 Admin Panel -->
-  <div id="panel">
+  <div id="panel" style="text-align: initial;" >
     <h2>🛠 Admin Dashboard <button class="logout-btn" onclick="logout()">Logout</button></h2>
 
-    <div>
+    <div class="show">
       <button onclick="showSection('adminSection')">👮 Manage Admins</button>
       <button onclick="showSection('studentsSection')">👨‍🎓 Students</button>
       <button onclick="showSection('busSection')">🚌 Buses</button>
@@ -125,7 +125,12 @@
       <button onclick="downloadStudents()">Download Students Excel</button>
       <button onclick="downloadBookings()">Download Bookings Excel</button>
       <button onclick="downloadBusBookings()">📊 Bus-wise Booking Details</button>
+      <button onclick="downloadStudentStatus()">🧾 Students Booking Status</button>
     </div>
+    <ul id="bookingsList"></ul>
+<ul id="qrList"></ul>
+
+
   </div>
 
   <br><br><br><br><br><br>
@@ -172,6 +177,6 @@
   </div>
 </footer>
 
-  <script src="admin.js"></script>
+  <script src="./js/admin.js"></script>
 </body>
 </html>

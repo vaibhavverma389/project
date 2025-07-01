@@ -16,7 +16,7 @@
       <div class="logo">
         <a href="index.html" class="logo">
         <img src="./image/bus.png" alt="Logo" style="height: 40px;">
-        <span>THE SMART BUS</span>
+        <span>The Smart Bus</span>
         </a>
         
       </div>
@@ -47,10 +47,12 @@
     <div class="login-container">
     <h2>🎓 Student Login</h2>
     <form id="studentLoginForm">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+  <input type="email" id="email" required />
+  <input type="password" id="password" required />
+  <div id="error" style="color:red; font-weight:bold;"></div>
+  <button type="submit">Login</button>
+</form>
+
 
     <button class="google-btn" onclick="googleLogin()">🔒 Sign in with Google</button>
 
@@ -110,5 +112,6 @@
 </footer> 
 
   <script src="./js/navbar.js"></script>
+  <script src="./js/login.js"></script>
 </body>
 </html>
