@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Bus Booking | Home</title>
+  <title> The Smart Bus Booking | payment</title>
   <link rel="stylesheet" href="./css/navbar.css" />
+  <link rel="stylesheet" href="./css/payment.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -15,7 +16,7 @@
       <div class="logo">
         <a href="index.html" class="logo">
         <img src="./image/bus.png" alt="Logo" style="height: 40px;">
-        <span>EXAM BUS</span>
+        <span>THE SMART BUS</span>
         </a>
         
       </div>
@@ -39,17 +40,34 @@
   </header>
   <!-- ✅ NAVBAR END -->
 
-  <main style="padding: 40px; text-align: center;">
-    <div style="height: 250px;">
-      <h1>Welcome to Smart Bus Booking</h1>
-    <p>Your one-stop solution for student-friendly bus seat booking.</p>
-    </div>
+  <!-- logic for payment option  by QR code and UTR number Based -->
+
+  <main style="padding: 40px; text-align: center;" class="payment-container">
+
+    <h2>🧾 Upload Payment Proof</h2>
+    <div id="paymentDetails"></div>
+    <h3 style="color: rgb(214, 35, 35);">Select Another QR if first QR is not  Working</h3>
+
+    <h3>💳 Select QR Code</h3>
+    <div id="qrContainer"></div>
+
+    <label>🧾 UTR Number:</label>
+    <input type="text" id="utrNumber" placeholder="Enter UTR number" required />
+
+    <label>📤 Upload Screenshot:</label>
+    <input type="file" id="screenshot" accept="image/*" required />
+    <br>
+
+    <button id="submitProof">Submit Payment</button>
+
   </main>
+
+  <!-- footer start from here  -->
     <footer class="footer">
   <div class="footer-container">
     <div class="footer-col">
       <img src="./image/bus.png" alt="Logo" class="footer-logo" />
-      <h3>smartbus.in</h3>
+      <h3>thesmartbus.in</h3>
       <p>The leading student bus ticket booking platform, making travel easier and more affordable.</p>
     </div>
 
@@ -78,12 +96,12 @@
         <a href="https://www.instagram.com/vaibhavverma389/"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
       </div>
-      <p>Email: contact@smartbus.in</p>
+      <p>Email: contact@thesmartbus.in</p>
     </div>
   </div>
 
   <div class="footer-bottom">
-    <p>© 2025 Smartbus.in. All rights reserved.</p>
+    <p>© 2025 Thesmartbus.in. All rights reserved.</p>
     <p>SINCE 2025</p>
   </div>
 </footer>

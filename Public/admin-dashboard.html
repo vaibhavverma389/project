@@ -1,1 +1,177 @@
-<!-- Admin dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - The Smart Bus Booking</title>
+  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="stylesheet" href="./css/style.css">
+
+</head>
+<body>
+    <header class="main-header">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="admin-dashboard.html" class="logo">
+        <img src="./image/bus.png" alt="Logo" style="height: 40px;">
+        <span>The Smart Bus</span>
+        </a>
+        
+      </div>
+
+      <!-- Hamburger Toggle -->
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links" id="navLinks">
+        <a href="admin-dashboard.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+
+      <!-- Right-side (Login/Logout/User) -->
+      
+    </div>
+  </header>
+  <br><br><br><br><br>
+  <div style="height: 100px;" class="loginForm">
+    <h2>🔐 Admin Login</h2>
+      
+  </div>
+
+  <!-- 🔐 Admin Login -->
+  
+  <div class="loginForm">
+    <form id="loginForm" >
+    <input type="email" id="email" placeholder="Email" required /><br>
+    <input type="password" id="password" placeholder="Password" required /><br>
+    <button type="submit">Login</button>
+  </form>
+  </div>
+  <div id="loginMessage" style="color: green;"></div>
+  <div id="loginError" style="color: red;"></div>
+
+  <!-- 🛠 Admin Panel -->
+  <div id="panel">
+    <h2>🛠 Admin Dashboard <button class="logout-btn" onclick="logout()">Logout</button></h2>
+
+    <div>
+      <button onclick="showSection('adminSection')">👮 Manage Admins</button>
+      <button onclick="showSection('studentsSection')">👨‍🎓 Students</button>
+      <button onclick="showSection('busSection')">🚌 Buses</button>
+      <button onclick="showSection('centerSection')">🏫 Exam Centers</button>
+      <button onclick="showSection('pickupSection')">📍 Pickup Points</button>
+      <button onclick="showSection('downloadSection')">📥 Export Excel</button>
+    </div>
+
+    <!-- 👮 Admin & Co-Admin Management -->
+    <div class="section" id="adminSection">
+      <h3>👥 Add Admin / Co-Admin</h3>
+      <input type="text" id="adminName" placeholder="Full Name" required />
+      <input type="tel" id="adminMobile" placeholder="Mobile Number" required />
+      <input type="email" id="adminEmail" placeholder="Email" required />
+      <input type="password" id="adminPassword" placeholder="Password" required />
+      <input type="password" id="adminConfirmPassword" placeholder="Confirm Password" required />
+      <select id="adminRole">
+        <option value="">Select Role</option>
+        <option value="admin">Admin</option>
+        <option value="co-admin">Co-Admin</option>
+      </select>
+      <button onclick="addAdmin()">➕ Add Account</button>
+      <h3>📝 Existing Admins</h3>
+      <ul id="adminList"></ul>
+    </div>
+
+    <!-- 👨‍🎓 Registered Students -->
+    <div class="section" id="studentsSection">
+      <h3>👨‍🎓 Registered Students</h3>
+      <ol id="studentsList"></ol>
+    </div>
+
+    <!-- 🚌 Bus Management -->
+    <div class="section" id="busSection">
+      <h3>🚌 Add Bus</h3>
+      <input type="text" id="busName" placeholder="Bus Name" />
+      <input type="number" id="seatCount" placeholder="Seat Count" />
+      <input type="date" id="travelDate" />
+      <select id="busTiming">
+        <option value="">Select Timing</option>
+        <option value="Forenoon">Forenoon</option>
+        <option value="Afternoon">Afternoon</option>
+      </select>
+      <input type="number" id="price" placeholder="Price ₹" />
+      <button onclick="addBus()">Add Bus</button>
+      <ul id="busList"></ul>
+    </div>
+
+    <!-- 🏫 Exam Centers -->
+    <div class="section" id="centerSection">
+      <h3>🏫 Exam Centers</h3>
+      <input type="text" id="centerInput" placeholder="Center Name" />
+      <button onclick="addCenter()">Add Center</button>
+      <ul id="centerList"></ul>
+    </div>
+
+    <!-- 📍 Pickup Points -->
+    <div class="section" id="pickupSection">
+      <h3>📍 Pickup Points</h3>
+      <input type="text" id="pickupInput" placeholder="Pickup Name" />
+      <button onclick="addPickup()">Add Pickup</button>
+      <ul id="pickupList"></ul>
+    </div>
+
+    <!-- 📥 Excel Download -->
+    <div class="section" id="downloadSection">
+      <h3>📥 Export Data</h3>
+      <button onclick="downloadStudents()">Download Students Excel</button>
+      <button onclick="downloadBookings()">Download Bookings Excel</button>
+      <button onclick="downloadBusBookings()">📊 Bus-wise Booking Details</button>
+    </div>
+  </div>
+
+  <br><br><br><br><br><br>
+      <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <img src="./image/bus.png" alt="Logo" class="footer-logo" />
+      <h3>Thesmartbus.in</h3>
+      <p>The leading student bus ticket booking platform, making travel easier and more affordable.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="booking.html" style="color: green;">Ticket Booking</a></li>
+        <li><a href="ticket.html">My Tickets</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Connect With Us</h4>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/vaibhavverma389/"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/vaibhavverma389/"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+      <p>Email: contact@thesmartbus.in</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Thesmartbus.in. All rights reserved.</p>
+    <p>SINCE 2025</p>
+  </div>
+</footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* Public/css/navbar.css */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main-header {
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+  position: relative;
+  z-index: 999;
+}
+
+/* .nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  
+} */
+ .nav-container {
+  position: fixed;      /* Fix the nav bar to the top */
+  top: 0;               /* Align it at the very top */
+  left: 0;              /* Stretch from left */
+  right: 0;             /* Stretch to right */
+  z-index: 1000;        /* Keep it above other elements */
+  background-color: #fff; /* Optional: Set background to avoid transparency */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 20px;   /* Add padding if needed */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: #9015ea;
+  text-decoration: none;
+}
+
+.logo img {
+  margin-right: 10px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 8px 0;
+}
+
+.nav-links a:hover {
+  color: #9015ea;
+}
+
+#navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-btn {
+  padding: 8px 14px;
+  background-color: #48b24e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background-color: #ea1595;
+}
+
+.user-dropdown {
+  position: relative;
+}
+
+.user-circle {
+  background: #76b947;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  width: 220px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 8px 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-content a:hover {
+  background-color: #f2f2f2;
+}
+
+.show {
+  display: block;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+@media screen and (max-width: 800px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    border-top: 1px solid #ddd;
+    z-index: 999;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links a {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+
+
+.footer {
+  background: #fff;
+  color: #444;
+  padding: 40px 1rem 40px;
+  font-family: 'Segoe UI', sans-serif;
+  border-top: 1px solid #eee;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-col {
+  flex: 1 1 220px;
+}
+
+.footer-logo {
+  width: 40px;
+  margin-bottom: 10px;
+}
+
+.footer-col h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #9015ea;
+}
+
+.footer-col h4 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: #111;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #454141;
+  transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+  color: #9015ea;
+}
+
+.footer-icons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.footer-icons a {
+  background-color: #f0f0f0;
+  color: #9015ea;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-icons a:hover {
+  background-color: #ffe6cc;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 30px;
+}

@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Bus Booking | Home</title>
+  <title>The Smart Bus Booking | login</title>
   <link rel="stylesheet" href="./css/navbar.css" />
+  <link rel="stylesheet" href="./css/login.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -15,7 +16,7 @@
       <div class="logo">
         <a href="index.html" class="logo">
         <img src="./image/bus.png" alt="Logo" style="height: 40px;">
-        <span>EXAM BUS</span>
+        <span>THE SMART BUS</span>
         </a>
         
       </div>
@@ -39,17 +40,37 @@
   </header>
   <!-- ✅ NAVBAR END -->
 
-  <main style="padding: 40px; text-align: center;">
-    <div style="height: 250px;">
-      <h1>Welcome to Smart Bus Booking</h1>
-    <p>Your one-stop solution for student-friendly bus seat booking.</p>
+  <main style="margin-top: 80px;">
+       
+
+    
+    <div class="login-container">
+    <h2>🎓 Student Login</h2>
+    <form id="studentLoginForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+
+    <button class="google-btn" onclick="googleLogin()">🔒 Sign in with Google</button>
+
+    <div class="links">
+      <p><a href="forgot-password.html">Forgot Password (OTP)?</a></p>
+      <p>Don't have an account? <a href="register.html">Signup here</a></p>
     </div>
+
+    <p class="error" id="error"></p>
+  </div>
+
   </main>
-    <footer class="footer">
+  <br><br><br>
+
+
+  <footer class="footer"> 
   <div class="footer-container">
     <div class="footer-col">
       <img src="./image/bus.png" alt="Logo" class="footer-logo" />
-      <h3>smartbus.in</h3>
+      <h3>Thesmartbus.in</h3>
       <p>The leading student bus ticket booking platform, making travel easier and more affordable.</p>
     </div>
 
@@ -78,15 +99,15 @@
         <a href="https://www.instagram.com/vaibhavverma389/"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
       </div>
-      <p>Email: contact@smartbus.in</p>
+      <p>Email: contact@thesmartbus.in</p>
     </div>
   </div>
 
   <div class="footer-bottom">
-    <p>© 2025 Smartbus.in. All rights reserved.</p>
+    <p>© 2025 Thesmartbus.in. All rights reserved.</p>
     <p>SINCE 2025</p>
   </div>
-</footer>
+</footer> 
 
   <script src="./js/navbar.js"></script>
 </body>

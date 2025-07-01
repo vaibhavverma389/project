@@ -1,0 +1,54 @@
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    h2, h3 {
+      color: #333;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 6px 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #9015ea;
+      width: 120px;
+      height: 42px;
+      border-radius: 15px;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .section {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: white;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #panel {
+      display: none;
+    }
+    ul, ol {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .logout-btn {
+      float: right;
+      background: #dc3545;
+    }
+.loginForm
+{
+  display: flex;
+  /* align-items: center; */
+  text-align: center;
+  justify-content: center;
+}
