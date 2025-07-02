@@ -1,18 +1,41 @@
-// Public/js/navbar.js
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
   const navRight = document.getElementById("navbar-right");
   const token = localStorage.getItem("studentToken");
-  const name = localStorage.getItem("studentName") || "U";
 
   if (token) {
+    let name = localStorage.getItem("name");
+    let email = localStorage.getItem("email");
+
+    // 🔄 Fetch only if data is missing
+    if (!name || !email) {
+      try {
+        const res = await fetch('/api/student/me', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        name = data.name || "vaibhav";
+        email = data.email || "unknown@example.com";
+
+        localStorage.setItem("name", name);
+        localStorage.setItem("email", email);
+      } catch (err) {
+        console.error("Failed to fetch student info", err);
+        name = "Vaibhav";
+        email = "unknown@example.com";
+      }
+    }
+
+    // 🔽 Build navbar dropdown
     navRight.innerHTML = `
       <div class="user-dropdown">
         <button class="user-circle" onclick="toggleDropdown()">${name.charAt(0).toUpperCase()}</button>
         <div id="dropdown" class="dropdown-content">
-          <p><strong>${name}</strong><br><small>Logged in</small></p>
+          <p><strong>${name}</strong><br><small>${email}</small></p>
           <a href="ticket.html">🎟 My Tickets</a>
           <a href="profile.html">👤 Update Profile</a>
-          <a href="whatsapp.html">🟢 WhatsApp Groups</a>
+
           <a href="#" onclick="logout()">🚪 Sign Out</a>
         </div>
       </div>
@@ -24,6 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 });
+
+
 
 function toggleDropdown() {
   document.getElementById("dropdown")?.classList.toggle("show");
@@ -44,3 +69,5 @@ window.onclick = function (e) {
     document.querySelectorAll('.dropdown-content').forEach(drop => drop.classList.remove('show'));
   }
 };
+
+

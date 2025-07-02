@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 const busSchema = new mongoose.Schema({
@@ -7,9 +8,9 @@ const busSchema = new mongoose.Schema({
   timing: { type: String, required: true },
   price: { type: Number, required: true },
   seatsAvailable: { type: Number, required: true },
-}, { timestamps: true });
+  examCenter: { type: String, required: true },
+  pickupPoints: [{ type: String, required: true }]
+});
 
-const Bus = mongoose.model('Bus', busSchema);
 
-// ✅ Correct ES module export
-export default Bus;
+export default mongoose.model('Bus', busSchema);

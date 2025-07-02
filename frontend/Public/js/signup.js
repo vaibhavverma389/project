@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const mobile = document.getElementById('mobile').value.trim();
-    const roll = document.getElementById('roll').value.trim(); // university
+    const roll = document.getElementById('roll').value.trim();
+    const gender = document.getElementById('gender').value.trim();
+    const pmobile = document.getElementById('pmobile').value.trim();
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
@@ -20,10 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
       name,
       email,
       mobile,
-      parentmobile: mobile,
-      university: roll,
+      gender,
+      pmobile,
+      roll,
       password
     };
+// console.log('studentData:', studentData);
 
     try {
       const response = await fetch('/student/signup', {

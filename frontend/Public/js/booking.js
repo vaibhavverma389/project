@@ -1,14 +1,14 @@
+const token = localStorage.getItem('studentToken');
+if (!token) {
+  alert("Please log in to book your ticket.");
+  window.location.href = "login.html";
+}
+
 // logic for the booking by student
 document.addEventListener('DOMContentLoaded', () => {
-  const token = localStorage.getItem('studentToken');
+  // const token = localStorage.getItem('studentToken');
 
-  // 🚫 Redirect if not logged in
-  if (!token) {
-    alert("Please log in to book your ticket.");
-    window.location.href = "login.html";
-    return;
-  }
-
+ 
   const pickupSelect = document.getElementById('pickup');
   const centerSelect = document.getElementById('examCenter');
   const searchBtn = document.getElementById('searchBtn');
