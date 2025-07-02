@@ -63,7 +63,7 @@ function showSection(id) {
 // ---------------------- Admin ----------------------
 async function loadAdmins() {
   try {
-    const res = await fetch('http://localhost:4000/api/adminall', {
+    const res = await fetch('http://localhost:4000/api/admin/coadmins', {
       headers: { Authorization: `Bearer ${token}` }
     });
     const admins = await res.json();
@@ -76,27 +76,29 @@ async function loadAdmins() {
   }
 }
 
-async function addAdmin() {
-  const email = document.getElementById('adminEmail').value.trim();
-  const password = document.getElementById('adminPassword').value.trim();
-  if (!email || !password) return alert('Enter both email and password');
 
-  try {
-    const res = await fetch('http://localhost:4000/api/admin/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ email, password })
-    });
-    if (!res.ok) return alert((await res.json()).error || 'Failed to add admin');
-    document.getElementById('adminEmail').value = '';
-    document.getElementById('adminPassword').value = '';
-    await loadAdmins();
-  } catch (err) {
-    alert(err.message);
-  }
+async function addAdmin() {
+  const name = document.getElementById('adminName').value.trim();
+const mobile = document.getElementById('adminMobile').value.trim();
+const email = document.getElementById('adminEmail').value.trim();
+const password = document.getElementById('adminPassword').value.trim();
+const confirmPassword = document.getElementById('adminConfirmPassword').value.trim();
+
+if (!name || !mobile || !email || !password || !confirmPassword)
+  return alert('⚠️ Please fill all admin fields');
+
+if (password !== confirmPassword)
+  return alert('❌ Passwords do not match');
+
+const res = await fetch('http://localhost:4000/api/admin/create', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+  body: JSON.stringify({ name, email, password, mobile })
+});
+
 }
 
 async function deleteAdmin(id) {
@@ -112,6 +114,47 @@ async function deleteAdmin(id) {
     alert(err.message);
   }
 }
+// async function addcoAdmin() {
+//   const name = document.getElementById('coadminName').value.trim();
+//   const mobile = document.getElementById('coadminMobile').value.trim();
+//   const email = document.getElementById('coadminEmail').value.trim();
+//   const password = document.getElementById('coadminPassword').value;
+//   const confirmPassword = document.getElementById('coadminConfirmPassword').value;
+
+//   if (!name || !mobile || !email || !password || !confirmPassword) {
+//     alert("⚠️ Please fill in all fields");
+//     return;
+//   }
+
+//   if (password !== confirmPassword) {
+//     alert("❌ Passwords do not match");
+//     return;
+//   }
+
+//   const token = localStorage.getItem('adminToken');
+
+//   try {
+//     const res = await fetch('/api/admins', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': token
+//       },
+//       body: JSON.stringify({ name, mobile, email, password, role: 'coadmin' })
+//     });
+
+//     const data = await res.json();
+//     if (res.ok) {
+//       alert("✅ Co-admin added successfully");
+//       loadCoAdmins(); // reload list
+//     } else {
+//       alert("❌ " + data.message);
+//     }
+//   } catch (err) {
+//     alert("❌ Failed to add co-admin");
+//     console.error(err);
+//   }
+// }
 async function addcoAdmin() {
   const name = document.getElementById('coadminName').value.trim();
   const mobile = document.getElementById('coadminMobile').value.trim();
@@ -132,11 +175,11 @@ async function addcoAdmin() {
   const token = localStorage.getItem('adminToken');
 
   try {
-    const res = await fetch('/api/admins', {
+    const res = await fetch('http://localhost:4000/api/admin/coadmin/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ name, mobile, email, password, role: 'coadmin' })
     });
@@ -144,9 +187,9 @@ async function addcoAdmin() {
     const data = await res.json();
     if (res.ok) {
       alert("✅ Co-admin added successfully");
-      loadCoAdmins(); // reload list
+      loadAdmins(); // reload list
     } else {
-      alert("❌ " + data.message);
+      alert("❌ " + data.error || "Failed to add co-admin");
     }
   } catch (err) {
     alert("❌ Failed to add co-admin");
@@ -289,21 +332,22 @@ async function addBus() {
 
   try {
     const res = await fetch('http://localhost:4000/api/bus', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        busName: name,
-        seatCount: seatCount,
-        travelDate: date,
-        timing,
-        pickup: pickupPoints,
-        center: examCenter,
-        price
-      })
-    });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+  body: JSON.stringify({
+    busName: name,
+    seatCount: seatCount,
+    travelDate: date,
+    timing,
+    pickup: pickupPoints,
+    center: examCenter,
+    price
+  })
+});
+
 
     if (!res.ok) throw new Error('Failed to add bus');
     await loadBuses();
@@ -477,21 +521,26 @@ function renderBookings() {
 
 async function cancelBookingAsAdmin(bookingId) {
   try {
-    const res = await fetch(`/admin/bookings/${bookingId}`, {
+    const res = await fetch(`http://localhost:4000/api/admin/bookings/${bookingId}`, {
       method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${token}` }
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     });
+
     const data = await res.json();
+
     if (res.ok) {
       alert("✅ Booking cancelled successfully");
       await loadBookings();
     } else {
-      alert(`❌ ${data.message || "Error cancelling booking"}`);
+      alert(`❌ ${data.error || data.message || "Error cancelling booking"}`);
     }
   } catch (err) {
-    alert(err.message);
+    alert("❌ " + err.message);
   }
 }
+
 
 // ---------------------- Downloads ----------------------
 function downloadStudents() {

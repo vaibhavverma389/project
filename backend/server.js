@@ -58,6 +58,7 @@ app.use('/api/export', exportRoutes);
 app.get('/api/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
+app.use(express.static(path.join(__dirname, '../frontend/Public')));
 
 // Start server
 app.listen(PORT, () => {

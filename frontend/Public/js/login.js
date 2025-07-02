@@ -1,4 +1,3 @@
-// Login JS
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('studentLoginForm');
   const errorDiv = document.getElementById('error');
@@ -10,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = document.getElementById('password').value;
 
     try {
-      const response = await fetch('/student/login', {
+      const response = await fetch('http://localhost:4000/api/student/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

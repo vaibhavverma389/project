@@ -7,10 +7,25 @@ import Admin from '../models/admin.js';
 import CoAdmin from '../models/coadmin.js';
 import Booking from '../models/booking.js';
 import QrCode from '../models/qrcode.js';
+import Student from '../models/student.js';
 import upload from '../utils/cloudinaryUpload.js';
 import { adminAuth } from '../middlewares/adminAuth.js';
 
 const router = express.Router();
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const admin = await Admin.findOne({ email });
+  if (!admin) return res.status(400).json({ error: 'Admin not found' });
+
+  const match = await bcrypt.compare(password, admin.password);
+  if (!match) return res.status(400).json({ error: 'Invalid password' });
+
+  const token = jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET, {
+    expiresIn: '1d'
+  });
+
+  res.json({ token });
+});
 
 router.get('/coadmins', adminAuth, async (req, res) => {
   const coadmins = await Admin.find({ role: 'co-admin' }, '_id name email');
@@ -58,5 +73,12 @@ router.delete('/coadmin/:id', adminAuth, async (req, res) => {
   await CoAdmin.findByIdAndDelete(req.params.id);
   res.json({ message: 'Co Admin deleted' });
 });
-
+router.get('/students', adminAuth, async (req, res) => {
+  try {
+    const students = await Student.find().select('-password'); // optional: exclude password
+    res.json(students);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch students' });
+  }
+});
 export default router;

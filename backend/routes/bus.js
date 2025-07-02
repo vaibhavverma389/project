@@ -16,14 +16,14 @@ router.post('/', adminAuth, async (req, res) => {
     }
 
     const newBus = new Bus({
-      busName,
+      name: busName,
       seatCount: Number(seatCount),
+      seatsAvailable: Number(seatCount),
       travelDate,
       timing,
-      price: Number(price),
-      pickup,
-      center,
-      seatsAvailable: Number(seatCount)
+      pickupPoints: pickup,     // 👈 properly named field
+      examCenter: center,       // 👈 properly named field
+      price: Number(price)
     });
 
     await newBus.save();
