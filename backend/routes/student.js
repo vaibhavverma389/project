@@ -36,4 +36,22 @@ router.get('/profile', studentAuth, async (req, res) => {
   res.json(student);
 });
 
+// import Student from '../models/student.js';
+// import { studentAuth } from '../middlewares/student.js';
+
+
+// ✅ Get logged-in student info
+router.get('/me', studentAuth, async (req, res) => {
+  try {
+    const student = await Student.findById(req.student.id).select('-password');
+    if (!student) return res.status(404).json({ error: 'Student not found' });
+    res.json(student);
+  } catch (err) {
+    console.error('❌ Error fetching student info:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+
 export default router;

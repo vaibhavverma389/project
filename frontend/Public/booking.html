@@ -83,14 +83,26 @@
         <div class="button">
           <button type="button" id="searchBtn">🔍 Search Bus</button>
         </div><br>
-        <div id="busResult" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+        <!-- Just before #busResult -->
+<div id="info" style="margin: 15px 0; font-weight: bold;"></div>
+
+<div id="busResult" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+  <h3>🚌 Bus Found</h3>
+  <p id="busName">Bus Name: --</p>
+  <p id="busType">Type: --</p>
+  <p id="seatInfo">Seats Available: --</p>
+  <p id="priceInfo">Price: ₹ --</p>
+  <button type="button" id="proceedBtn" style="margin-top: 10px;">🚍 Proceed to Payment</button>
+</div>
+
+        <!-- <div id="busResult" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
           <h3>🚌 Bus Found</h3>
           <p id="busName">Bus Name: --</p>
           <p id="busType">Type: --</p>
           <p id="seatInfo">Seats Available: --</p>
           <p id="priceInfo">Price: ₹ --</p>
           <button type="button" id="proceedBtn" style="margin-top: 10px;">🚍 Proceed to Payment</button>
-        </div>
+        </div> -->
 
 
       </form>
@@ -141,5 +153,6 @@
 </footer>
 
   <script src="./js/navbar.js"></script>
+  <script src="./js/booking.js"></script>
 </body>
 </html>

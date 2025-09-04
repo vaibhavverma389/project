@@ -1,106 +1,161 @@
-const token = localStorage.getItem('studentToken');
-if (!token) {
-  alert("Please log in to book your ticket.");
-  window.location.href = "login.html";
-}
+// ✅ booking.js
 
-// logic for the booking by student
 document.addEventListener('DOMContentLoaded', () => {
-  // const token = localStorage.getItem('studentToken');
-
- 
   const pickupSelect = document.getElementById('pickup');
-  const centerSelect = document.getElementById('examCenter');
+  const examCenterSelect = document.getElementById('examCenter');
+  const timeSelect = document.getElementById('time');
+  const dateInput = document.getElementById('date');
+  const infoDiv = document.getElementById('info') || document.createElement('div'); // fallback
   const searchBtn = document.getElementById('searchBtn');
-  const proceedBtn = document.getElementById('proceedBtn');
-  const busResult = document.getElementById('busResult');
+  const proceedBtn = document.getElementById('proceedBtn'); // ✅ consistent with HTML
 
-  const busNameDisplay = document.getElementById('busName');
-  const busTypeDisplay = document.getElementById('busType');
-  const seatInfo = document.getElementById('seatInfo');
-  const priceInfo = document.getElementById('priceInfo');
+  const token = localStorage.getItem('studentToken');
+  if (!token) {
+    alert('Please log in first to book your ticket.');
+    window.location.href = 'login.html';
+    return;
+  }
 
-  // 🔄 Load pickup points
-  fetch('/api/pickups')
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(pickup => {
+  // Set today's date
+  dateInput.value = new Date().toISOString().split('T')[0];
+
+  const query = new URLSearchParams(window.location.search);
+  const queryParams = {
+    date: query.get("date"),
+    pickup: query.get("pickup"),
+    examCenter: query.get("examCenter"),
+    time: query.get("time")
+  };
+
+  async function fetchOptions() {
+    try {
+      const [pickupRes, centerRes] = await Promise.all([
+        fetch('/api/pickup'),
+        fetch('/api/centers')
+      ]);
+
+      const pickups = await pickupRes.json();
+      const centers = await centerRes.json();
+
+      pickupSelect.innerHTML = '<option value="">Select Pickup Point</option>';
+      examCenterSelect.innerHTML = '<option value="">Select Exam Center</option>';
+
+      pickups.forEach(p => {
         const option = document.createElement('option');
-        option.value = pickup.name;
-        option.textContent = pickup.name;
+        option.value = p.name;
+        option.textContent = p.name;
         pickupSelect.appendChild(option);
       });
-    })
-    .catch(err => console.error('Error loading pickup points:', err));
 
-  // 🔄 Load exam centers
-  fetch('/api/centers')
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(center => {
+      centers.forEach(c => {
         const option = document.createElement('option');
-        option.value = center.name;
-        option.textContent = center.name;
-        centerSelect.appendChild(option);
+        option.value = c.name;
+        option.textContent = c.name;
+        examCenterSelect.appendChild(option);
       });
-    })
-    .catch(err => console.error('Error loading centers:', err));
 
-  // 🔍 Search Bus
+    } catch (err) {
+      console.error('❌ Failed to load options:', err);
+      infoDiv.textContent = 'Error loading pickup points or exam centers.';
+      infoDiv.style.color = 'red';
+    }
+  }
+
+  async function autoTriggerSearchFromURL() {
+    await fetchOptions();
+
+    if (queryParams.date && queryParams.pickup && queryParams.examCenter && queryParams.time) {
+      dateInput.value = queryParams.date;
+      pickupSelect.value = queryParams.pickup;
+      examCenterSelect.value = queryParams.examCenter;
+      timeSelect.value = queryParams.time;
+
+      searchBtn.click();
+    }
+  }
+
+  autoTriggerSearchFromURL();
+  proceedBtn.style.display = 'none';
+
   searchBtn.addEventListener('click', async () => {
-    const date = document.getElementById('date').value;
-    const pickup = pickupSelect.value;
-    const center = centerSelect.value;
-    const time = document.getElementById('time').value;
+    infoDiv.textContent = '';
+    proceedBtn.style.display = 'none';
 
-    if (!date || !pickup || !center || !time) {
-      alert("Please fill all fields.");
+    const date = dateInput.value;
+    const pickup = pickupSelect.value;
+    const examCenter = examCenterSelect.value;
+    const time = timeSelect.value;
+
+    if (!date || !pickup || !examCenter || !time) {
+      alert('Please fill all fields');
       return;
     }
 
+    // Disable button while searching
+    searchBtn.disabled = true;
+    searchBtn.textContent = "Searching...";
+
     try {
-      const response = await fetch('/api/buses/check', {
+      const res = await fetch('/api/buses/check', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ date, pickup, center, time })
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          travelDate: date,
+          pickup,
+          center: examCenter,
+          timing: time
+        })
       });
 
-      const result = await response.json();
+      const result = await res.json();
 
-      if (response.ok && result.bus) {
-        const bus = result.bus;
-
-        // Show bus info
-        busResult.style.display = 'block';
-        busNameDisplay.textContent = `Bus Name: ${bus.busName}`;
-        busTypeDisplay.textContent = `Type: ${bus.type}`;
-        seatInfo.textContent = `Seats Available: ${bus.seatsAvailable}`;
-        priceInfo.textContent = `Price: ₹${bus.price}`;
-
-        // Save info to localStorage for payment
-        localStorage.setItem('bookingDetails', JSON.stringify({
-          date,
-          pickup,
-          center,
-          time,
-          busName: bus.busName,
-          price: bus.price
-        }));
-      } else {
-        alert(result.message || "No bus available for this route.");
-        busResult.style.display = 'none';
+      if (!result.success || !result.bus) {
+        infoDiv.textContent = '❌ No bus found or all seats booked.';
+        infoDiv.style.color = 'red';
+        return;
       }
+
+      const { name, price, seatsAvailable, time: busTime } = result.bus;
+
+      // Fill in the result section
+      document.getElementById('busResult').style.display = 'block';
+      document.getElementById('busName').textContent = `Bus Name: ${name}`;
+      document.getElementById('seatInfo').textContent = `Seats Available: ${seatsAvailable}`;
+      document.getElementById('priceInfo').textContent = `Price: ₹${price}`;
+
+      // Save details
+      const bookingDetails = {
+        date,
+        pickup,
+        examCenter,
+        time,
+        price,
+        busName: name
+      };
+      localStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
+      proceedBtn.style.display = 'inline-block';
+
     } catch (err) {
-      console.error('Bus search failed:', err);
-      alert("Error checking bus availability.");
+      console.error('❌ Error checking bus:', err);
+      infoDiv.textContent = '❌ Error checking bus availability.';
+      infoDiv.style.color = 'red';
     }
+
+    // Re-enable
+    searchBtn.disabled = false;
+    searchBtn.textContent = "🔍 Search Bus";
   });
 
-  // ✅ Proceed to payment
   proceedBtn.addEventListener('click', () => {
+    const temp = localStorage.getItem('bookingDetails');
+    if (!temp) {
+      alert('No booking info found');
+      return;
+    }
+
     window.location.href = 'payment.html';
   });
 });
-
-
-

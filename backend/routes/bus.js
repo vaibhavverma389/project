@@ -6,7 +6,8 @@ import { studentAuth } from '../middlewares/student.js';
 
 const router = express.Router();
 
-// ✅ Create new bus
+
+// ✅ CREATE NEW BUS (Admin Only)
 router.post('/', adminAuth, async (req, res) => {
   try {
     const { busName, seatCount, travelDate, timing, price, pickup, center } = req.body;
@@ -18,11 +19,11 @@ router.post('/', adminAuth, async (req, res) => {
     const newBus = new Bus({
       name: busName,
       seatCount: Number(seatCount),
-      seatsAvailable: Number(seatCount),
-      travelDate,
-      timing,
-      pickupPoints: pickup,     // 👈 properly named field
-      examCenter: center,       // 👈 properly named field
+      seatsAvailable: Number(seatCount), // full initially
+      travelDate, // should be string like "2025-07-06"
+      timing, // e.g., "Forenoon"
+      pickupPoints: Array.isArray(pickup) ? pickup : [pickup], // always store as array
+      examCenter: center,
       price: Number(price)
     });
 
@@ -34,38 +35,70 @@ router.post('/', adminAuth, async (req, res) => {
   }
 });
 
-// ✅ Get all buses
+
+// ✅ GET ALL BUSES (Admin Only)
 router.get('/', adminAuth, async (req, res) => {
-  const buses = await Bus.find();
-  res.json(buses);
+  try {
+    const buses = await Bus.find();
+    res.json(buses);
+  } catch (err) {
+    console.error("❌ Error fetching buses:", err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
-// ✅ Update bus
+
+// ✅ UPDATE BUS (Admin Only)
 router.put('/:id', adminAuth, async (req, res) => {
-  const updated = await Bus.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updated);
+  try {
+    const updated = await Bus.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    console.error("❌ Error updating bus:", err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
-// ✅ Delete bus
+
+// ✅ DELETE BUS (Admin Only)
 router.delete('/:id', adminAuth, async (req, res) => {
-  await Bus.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Bus deleted' });
+  try {
+    await Bus.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Bus deleted' });
+  } catch (err) {
+    console.error("❌ Error deleting bus:", err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
-// ✅ Check available bus before booking (for students)
+
+// ✅ STUDENT BUS SEARCH (token protected)
 router.post('/check', studentAuth, async (req, res) => {
-  const { date, pickup, examCenter, time } = req.body;
+  const { travelDate, pickup, center, timing } = req.body;
+  console.log('🔍 Bus check request:', { travelDate, pickup, center, timing });
 
-  const bus = await Bus.findOne({
-    travelDate: date,
-    pickup,
-    center: examCenter,
-    timing: time,
-    seatsAvailable: { $gt: 0 }
-  });
+  try {
+    const bus = await Bus.findOne({
+      travelDate,                              // match travel date
+      pickupPoints: { $in: [pickup] },         // pickup must be in pickupPoints array
+      examCenter: center,                      // match exam center
+      timing: { $regex: new RegExp(`^${timing}$`, 'i') },                                 
+      seatsAvailable: { $gt: 0 }               
+    });
 
-  if (!bus) return res.json({ success: false });
-  res.json({ success: true, bus });
+
+    if (!bus) {
+      return res.status(404).json({ success: false, message: 'No bus available for this route.' });
+    }
+
+    res.json({ success: true, bus });
+  } catch (err) {
+    console.error("❌ Bus search error:", err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
 });
+
+
+
 
 export default router;

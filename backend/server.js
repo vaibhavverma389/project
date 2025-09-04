@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import session from 'express-session';
 import passport from './middlewares/passport.js';
+
+
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -45,20 +47,25 @@ import centerRoutes from './routes/center.js';
 import qrRoutes from './routes/qr.js';
 import exportRoutes from './routes/export.js';
 
+
+app.use('/api/buses', busRoutes); // ✅ must exist
+
+
 app.use('/api/auth', authRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/bus', busRoutes);
+app.use('/api/buses', busRoutes);
 app.use('/api/pickup', pickupRoutes);
 app.use('/api/centers', centerRoutes);
 app.use('/api/qrs', qrRoutes);
 app.use('/api/export', exportRoutes);
 
-// Test Route
 app.get('/api/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
 app.use(express.static(path.join(__dirname, '../frontend/Public')));
+
+
 
 // Start server
 app.listen(PORT, () => {

@@ -43,7 +43,7 @@
 
     <div class="show">
       <button onclick="showSection('adminSection')">👮 Manage Admins</button>
-      <button onclick="showSection('coadminSection')">👮 Manage Co Admins</button>
+      <button onclick="showSection('coordinaterSection')">👮 Manage Co Admins</button>
       <button onclick="showSection('studentsSection')">👨‍🎓 Students</button>
       <button onclick="showSection('busSection')">🚌 Buses</button>
       <button onclick="showSection('centerSection')">🏫 Exam Centers</button>
@@ -53,53 +53,87 @@
       <button onclick="showSection('qrcodeupload')">📥 Qr Code Adding</button>
     </div>
 
-    <div class="section" id="qrcodeupload">
-        <h2>📤 Upload QR Code & Assign Co-Admin</h2>
-        <div class="form-group">
-          <label for="qrcode">Upload QR Code (Image)</label>
-          <input type="file" id="qrcode" accept="image/*" />
-          <img id="preview" />
-        </div>
+  
+      
+<div class="section" id="coordinaterSection" style="display: none;">
+  <h2>👮 Manage Coordinators</h2>
 
-        <div class="form-group">
-          <label for="qrid">Enter QR ID / UPI ID</label>
-          <input type="text" id="qrid" placeholder="e.g. vaibhav@upi" />
-        </div>
+  <form id="coordinatorForm">
+    <input type="hidden" id="coordinatorId" />
+    <input type="text" id="coordName" placeholder="Name" required />
+    <input type="email" id="coordEmail" placeholder="Email" required />
+    <input type="password" id="coordPassword" placeholder="Password" required />
+    <button type="submit" id="coordSubmitBtn">➕ Add Coordinator</button>
+  </form>
 
-        <div class="form-group">
-          <label for="coadmin">Assign Co-Admin</label>
-          <select id="coadmin">
-          <option value="">-- Select Co-Admin --</option>
-          </select>
-        </div>
-        <button onclick="uploadQR()">🚀 Upload & Assign</button>
-    </div>
+  <table id="coordinatorTable" border="1" style="width: 100%; margin-top: 20px;">
+    <thead>
+      <tr><th>Name</th><th>Email</th><th>Actions</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+
+
+    <div class="section" id="qrcodeupload" style="display: none;">
+  <h2>📤 Upload QR Code & Assign Coordinator</h2>
+
+  <div class="form-group">
+    <label for="qrcode">Upload QR Code (Image)</label>
+    <input type="file" id="qrcode" accept="image/*" onchange="previewImage(event)" />
+    <img id="preview" style="max-width: 200px; margin-top: 10px;" />
+  </div>
+
+  <div class="form-group">
+    <label for="qrid">Enter QR ID / UPI ID</label>
+    <input type="text" id="qrid" placeholder="e.g. vaibhav@upi" />
+  </div>
+
+  <div class="form-group">
+    <label for="coadmin">Assign Coordinator</label>
+    <select id="coadmin">
+      <option value="">-- Select Coordinator --</option>
+    </select>
+  </div>
+
+  <button onclick="uploadQR()">🚀 Upload & Assign</button>
+</div>
+
     <!-- 👮 Admin Management -->
     <div class="section" id="adminSection">
-      <h3>👥 Add Admin </h3>
-      <input type="text" id="adminName" placeholder="Full Name" required />
-      <input type="tel" id="adminMobile" placeholder="Mobile Number" required />
-      <input type="email" id="adminEmail" placeholder="Email" required />
-      <input type="password" id="adminPassword" placeholder="Password" required />
-      <input type="password" id="adminConfirmPassword" placeholder="Confirm Password" required />
-      <button onclick="addAdmin()">➕ Add Account</button>
-      <h3>📝 Existing Admins</h3>
-      <ul id="adminList"></ul>
-    </div>
-    <!--------Co admin management -->
-    <div class="section" id="coadminSection">
-      <h3>👥 Add  Co-Admin</h3>
-      <input type="text" id="coadminName" placeholder="Full Name" required />
-      <input type="tel" id="coadminMobile" placeholder="Mobile Number" required />
-      <input type="email" id="coadminEmail" placeholder="Email" required />
-      <input type="password" id="coadminPassword" placeholder="Password" required />
-      <input type="password" id="coadminConfirmPassword" placeholder="Confirm Password" required />
-      <!-- <button onclick="addcoAdmin()">➕ Add Account</button> -->
-      <button onclick="addcoAdmin()">➕ Add Account</button>
+  <h3>👥 Add Admin</h3>
+  <input type="text" id="adminName" placeholder="Full Name" required />
+  <input type="tel" id="adminMobile" placeholder="Mobile Number" required />
+  <input type="email" id="adminEmail" placeholder="Email" required />
+  <input type="password" id="adminPassword" placeholder="Password" required />
+  <input type="password" id="adminConfirmPassword" placeholder="Confirm Password" required />
+  <button onclick="addAdmin()">➕ Add Account</button>
 
-      <h3>📝 Existing Co Admins</h3>
-      <ul id="coadminList"></ul>
-    </div>
+  <hr>
+
+  <h3>📋 All Admins</h3>
+  <ul id="adminList"></ul>
+</div>
+
+
+
+
+    
+
+    <!-- <div class="section" id="coordinatorSection">
+  <h3>👤 Add Coordinator</h3>
+  <input type="text" id="coordName" placeholder="Full Name" required />
+  <input type="tel" id="coordMobile" placeholder="Mobile Number" required />
+  <input type="email" id="coordEmail" placeholder="Email" required />
+  <input type="password" id="coordPassword" placeholder="Password" required />
+  <input type="password" id="coordConfirmPassword" placeholder="Confirm Password" required />
+  <button onclick="addCoordinator()">➕ Add Coordinator</button>
+
+  <h3>📃 All Coordinators</h3>
+  <ul id="coordList"></ul>
+</div> -->
+
 
     <!-- 👨‍🎓 Students -->
     <div class="section" id="studentsSection">
@@ -132,8 +166,9 @@
       </select>
 
       <input type="number" id="price" placeholder="Price ₹" />
-      <button onclick="addBus()">Add Bus</button>
-      <button id="updateBusBtn" onclick="updateBus()" style="display:none;">Update Bus</button>
+      <!-- <button onclick="addBus()">Add Bus</button> -->
+       <button id="addBusBtn" onclick="addBus()">Add Bus</button>
+
 
       <ul id="busList"></ul>
     </div>

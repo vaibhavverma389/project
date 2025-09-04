@@ -5,27 +5,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (token) {
     let name = localStorage.getItem("name");
-    let email = localStorage.getItem("email");
+let email = localStorage.getItem("email");
+const token = localStorage.getItem("studentToken");
 
-    // 🔄 Fetch only if data is missing
-    if (!name || !email) {
-      try {
-        const res = await fetch('/api/student/me', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-
-        name = data.name || "vaibhav";
-        email = data.email || "unknown@example.com";
-
-        localStorage.setItem("name", name);
-        localStorage.setItem("email", email);
-      } catch (err) {
-        console.error("Failed to fetch student info", err);
-        name = "Vaibhav";
-        email = "unknown@example.com";
+if (!name || !email) {
+  try {
+    const res = await fetch('/api/student/me', {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    }
+    });
+
+    const data = await res.json();
+
+    name = data.name || "Vaibhav";
+    email = data.email || "unknown@example.com";
+
+    localStorage.setItem("name", name);
+    localStorage.setItem("email", email);
+  } catch (err) {
+    console.error("Failed to fetch student info", err);
+    name = "Vaibhav";
+    email = "unknown@example.com";
+  }
+}
+
 
     // 🔽 Build navbar dropdown
     navRight.innerHTML = `

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coordinator Dashboard - Smart Bus Booking</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .panel, .login-panel {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ddd;
+    }
+    .panel h2, .login-panel h2 {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0099ff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #007acc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Panel -->
+  <div class="login-panel" id="loginPanel">
+    <h2>🔐 Coordinator Login</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="loginCoordinator()">Login</button>
+  </div>
+
+  <!-- Dashboard Panel -->
+  <div class="panel" id="dashboardPanel" style="display: none;">
+    <h2>👤 Welcome, <span id="coordName">Coordinator</span></h2>
+    <p>Email: <span id="coordEmail"></span></p>
+    <button onclick="logoutCoordinator()">🚪 Logout</button>
+  </div>
+
+  <script>
+    async function loginCoordinator() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) return alert("Please enter both email and password.");
+
+      try {
+        const res = await fetch('/api/coordinator/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem('coordinatorToken', data.token);
+          loadCoordinatorDashboard();
+        } else {
+          alert(data.message);
+        }
+      } catch (err) {
+        alert("Login failed.");
+        console.error(err);
+      }
+    }
+
+    async function loadCoordinatorDashboard() {
+      const token = localStorage.getItem('coordinatorToken');
+      if (!token) return;
+
+      try {
+        const res = await fetch('/api/coordinator/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('loginPanel').style.display = 'none';
+          document.getElementById('dashboardPanel').style.display = 'block';
+          document.getElementById('coordName').innerText = data.data.name;
+          document.getElementById('coordEmail').innerText = data.data.email;
+        } else {
+          logoutCoordinator(); // Invalid token
+        }
+      } catch (err) {
+        console.error(err);
+        logoutCoordinator(); // Auto logout on error
+      }
+    }
+
+    function logoutCoordinator() {
+      localStorage.removeItem('coordinatorToken');
+      window.location.reload();
+    }
+
+    // Auto-load dashboard if token exists
+    window.addEventListener('DOMContentLoaded', loadCoordinatorDashboard);
+  </script>
+
+</body>
+</html>

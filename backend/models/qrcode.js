@@ -1,11 +1,23 @@
-
+// models/qrcode.js
 import mongoose from 'mongoose';
+
 const qrCodeSchema = new mongoose.Schema({
-  upiId: String,
-  imagePath: String,
-  assignedTo: {
+  name: {
+    type: String,
+    required: true
+  },
+  url: {
+    type: String,
+    required: true
+  },
+  coadmin: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Admin'
+    ref: 'Coordinator',
+    required: true
   }
+}, {
+  timestamps: true
 });
-export default mongoose.model('QrCode', qrCodeSchema);
+
+const QRCode = mongoose.model('QRCode', qrCodeSchema);
+export default QRCode;
