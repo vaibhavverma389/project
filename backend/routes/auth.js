@@ -36,3 +36,4 @@ router.post('/admin/setup-default', async (req, res) => {
 });
 
 export default router;
+

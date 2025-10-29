@@ -175,7 +175,7 @@ async function deleteCoordinator(id) {
 // More sections like pickup, centers, buses, students, bookings should follow...
 // Let me know if you want them included here too.
 function downloadStudents() {
-  fetch('http://localhost:4000/api/export/students', {
+  fetch('/api/export/students', {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.blob())
@@ -191,7 +191,7 @@ function downloadStudents() {
 }
 
 function downloadBookings() {
-  fetch('http://localhost:4000/api/export/bookings', {
+  fetch('/api/export/bookings', {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.blob())
@@ -209,7 +209,7 @@ function downloadBookings() {
 
 async function cancelBookingAsAdmin(bookingId) {
   try {
-    const res = await fetch(`http://localhost:4000/api/admin/bookings/${bookingId}`, {
+    const res = await fetch(`/api/admin/bookings/${bookingId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -232,7 +232,7 @@ async function cancelBookingAsAdmin(bookingId) {
 
 async function loadBookings() {
   try {
-    const res = await fetch('http://localhost:4000/api/admin/bookings', {
+    const res = await fetch('/api/admin/bookings', {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) throw new Error('Failed to load bookings');
@@ -280,7 +280,7 @@ function renderBookings() {
 
 async function loadStudents() {
   try {
-    const res = await fetch('http://localhost:4000/api/admin/students', {
+    const res = await fetch('/api/admin/students', {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) throw new Error('Failed to load students');
@@ -327,7 +327,7 @@ async function addBus() {
   }
 
   try {
-    const res = await fetch('http://localhost:4000/api/bus', {
+    const res = await fetch('/api/bus', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -432,8 +432,8 @@ async function addBus() {
   try {
     const method = editingBusId ? 'PUT' : 'POST';
     const url = editingBusId 
-      ? `http://localhost:4000/api/buses/${editingBusId}`
-      : 'http://localhost:4000/api/buses';
+      ? `/api/buses/${editingBusId}`
+      : '/api/buses';
 
     const res = await fetch(url, {
       method,
@@ -467,7 +467,7 @@ async function deleteBus(id) {
   if (!confirm('⚠️ Are you sure you want to delete this bus?')) return;
 
   try {
-    const res = await fetch(`http://localhost:4000/api/buses/${id}`, {
+    const res = await fetch(`/api/buses/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -482,7 +482,7 @@ async function deleteBus(id) {
 }
 async function loadBuses() {
   try {
-    const ses= await fetch('http://localhost:4000/api/buses',{
+    const ses= await fetch('/api/buses',{
       headers: {Authorization: `Bearer ${token}`}
     });
     if (!ses.ok) throw new error("Failed to load Bus");
@@ -496,7 +496,7 @@ async function loadBuses() {
 
 // ---------------------- Centers ----------------------
 async function loadCenters() {
-  const res = await fetch('http://localhost:4000/api/centers');
+  const res = await fetch('/api/centers');
   centers = await res.json();
   renderCenters();
   loadCentersSelect();
@@ -516,7 +516,7 @@ async function addCenter() {
   const name = document.getElementById('centerInput').value.trim();
   if (!name) return alert('Enter center name');
   try {
-    const res = await fetch('http://localhost:4000/api/centers', {
+    const res = await fetch('/api/centers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({ name })
@@ -532,7 +532,7 @@ async function addCenter() {
 async function removeCenter(id) {
   if (!confirm('Delete this center?')) return;
   try {
-    const res = await fetch(`http://localhost:4000/api/centers/${id}`, {
+    const res = await fetch(`/api/centers/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -546,7 +546,7 @@ async function removeCenter(id) {
 
 // ---------------------- Pickups ----------------------
 async function loadPickups() {
-  const res = await fetch('http://localhost:4000/api/pickup', {
+  const res = await fetch('/api/pickup', {
     headers: { Authorization: `Bearer ${token}` }
   });
   pickups = await res.json();
@@ -568,7 +568,7 @@ async function addPickup() {
   const name = document.getElementById('pickupInput').value.trim();
   if (!name) return alert('Enter pickup name');
   try {
-    const res = await fetch('http://localhost:4000/api/pickup', {
+    const res = await fetch('/api/pickup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({ name })
@@ -584,7 +584,7 @@ async function addPickup() {
 async function removePickup(id) {
   if (!confirm('Delete this pickup?')) return;
   try {
-    const res = await fetch(`http://localhost:4000/api/pickup/${id}`, {
+    const res = await fetch(`/api/pickup/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` }
     });

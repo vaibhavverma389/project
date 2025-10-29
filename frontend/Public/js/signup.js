@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    // get input values
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const mobile = document.getElementById('mobile').value.trim();
@@ -13,11 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    // simple validation
+    if (!name || !email || !mobile || !roll || !gender || !pmobile || !password) {
+      alert("⚠️ Please fill all the fields!");
       return;
     }
 
+    if (password !== confirmPassword) {
+      alert("❌ Passwords do not match!");
+      return;
+    }
+
+    // prepare data
     const studentData = {
       name,
       email,
@@ -27,10 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
       roll,
       password
     };
-// console.log('studentData:', studentData);
 
     try {
-      const response = await fetch('/student/signup', {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -42,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok) {
         alert('✅ Account created successfully! Redirecting to login...');
+        // optionally save token
+        localStorage.setItem('token', result.token);
         window.location.href = 'login.html';
       } else {
         alert(result.error || result.message || '❌ Sign-up failed. Please try again.');
