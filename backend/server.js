@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import session from 'express-session';
-import passport from './middlewares/passport.js';
+// import passport from './middlewares/passport.js';
 
 
 import { fileURLToPath } from 'url';
@@ -31,8 +31,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Static Frontend
 app.use(express.static(path.join(__dirname, '../frontend/Public')));
@@ -44,7 +44,6 @@ import adminRoutes from './routes/admin.js';
 import busRoutes from './routes/bus.js';
 import pickupRoutes from './routes/pickup.js';
 import centerRoutes from './routes/center.js';
-import qrRoutes from './routes/qr.js';
 import exportRoutes from './routes/export.js';
 
 
@@ -57,7 +56,6 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/buses', busRoutes);
 app.use('/api/pickup', pickupRoutes);
 app.use('/api/centers', centerRoutes);
-app.use('/api/qrs', qrRoutes);
 app.use('/api/export', exportRoutes);
 
 app.get('/api/ping', (req, res) => {

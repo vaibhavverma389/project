@@ -36,8 +36,6 @@ router.get('/profile', studentAuth, async (req, res) => {
   res.json(student);
 });
 
-// import Student from '../models/student.js';
-// import { studentAuth } from '../middlewares/student.js';
 
 
 // ✅ Get logged-in student info

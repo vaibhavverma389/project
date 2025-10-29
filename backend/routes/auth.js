@@ -2,19 +2,11 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import Admin from '../models/admin.js';
-import passport from '../middlewares/passport.js';
+// import passport from '../middlewares/passport.js';
 
 const router = express.Router();
 
-router.get('/student/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/student/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login.html' }),
-  (req, res) => {
-    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.redirect(`/home.html?token=${token}&name=${encodeURIComponent(req.user.name)}`);
-  }
-);
 
 router.post('/admin/login', async (req, res) => {
   const { email, password } = req.body;

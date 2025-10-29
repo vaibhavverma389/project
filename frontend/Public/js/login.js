@@ -33,7 +33,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// 🔐 Google OAuth login
-function googleLogin() {
-  window.location.href = "https://851e-2409-40d2-64-c9b4-f5cb-811e-1011-5837.ngrok-free.app/api/student/google";
-}
+

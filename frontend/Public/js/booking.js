@@ -156,6 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    window.location.href = 'payment.html';
+    // window.location.href = 'payment.html';
   });
 });
